@@ -17,6 +17,15 @@ const routes = [
     path: '/playground',
     name: 'Playground',
     component: () => import('../views/Playground.vue')
+  },
+  {
+    path: '/playground/:code',
+    name: 'PlaygroundCode',
+    component: () => import('../views/Playground.vue')
+  },
+  {
+    path: '*',
+    redirect: '/'
   }
 ]
 

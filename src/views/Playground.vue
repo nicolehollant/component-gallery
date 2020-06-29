@@ -209,10 +209,9 @@ export default defineComponent({
 
     function submit() {
       const hash = encode(state.content)
-      if(hash !== root.$route.hash.substring(1)){
+      if(hash !== root.$route.params.code){
         root.$router.push({
-          path: '/playground',
-          hash
+          path: ['/playground', hash].join('/'),
         })
       }
       compiled.value = Vue.component('playground', {
@@ -279,10 +278,9 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      // encode, decode, isUrlSafeBase64
-      const hashCode = root.$route.hash
-      if(hashCode && decode(hashCode.substring(1))) {
-        state.content = decode(hashCode.substring(1))
+      const hashCode = root.$route.params.code
+      if(hashCode && decode(hashCode)) {
+        state.content = decode(hashCode)
         submit()
       }
       state.componentList.forEach(c => Vue.component(c.componentName, c.value))
