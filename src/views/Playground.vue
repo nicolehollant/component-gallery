@@ -27,9 +27,9 @@
       <div class="group" v-for="(size, index) in state.sizes" :key="index">
         <div class="relative z-nav shadow-md group-hover:shadow-lg transition duration-300">
           <div class="flex-shrink-0 bg-white overflow-auto" :style="`width: ${size.w}px; height: ${size.h}px`">
-            <myframe class="inline-flex h-full w-full">
+            <I-Frame class="inline-flex h-full w-full">
               <component :is="compiled" />
-            </myframe>
+            </I-Frame>
           </div>
         </div>
         <p>
@@ -207,6 +207,15 @@ export default defineComponent({
       submit()
     }, 1000)
 
+    const st = reactive({
+      radio: '',
+      select: '',
+      title: "I'm live 🥰",
+      checkbox: false,
+      toggle: false,
+      slider: 0,
+    })
+
     function submit() {
       const hash = encode(state.content)
       if(hash !== root.$route.params.code){
@@ -216,15 +225,8 @@ export default defineComponent({
       }
       compiled.value = Vue.component('playground', {
         props: ['state'],
-        data: () => ({
-          radio: '',
-          select: '',
-          title: "I'm live 🥰",
-          checkbox: false,
-          toggle: false,
-          slider: 0,
-        }),
-        template: ['<div>', state.content, '</div>'].join('\n')
+        data: () => st,
+        template: [`<div @input="(e) => $emit('input', e)">`, state.content, '</div>'].join('\n')
       })
     }
 
@@ -238,36 +240,6 @@ export default defineComponent({
         event.target.selectionEnd = event.target.selectionStart = originalSelectionStart + 2
       });
     }
-
-    Vue.component('myframe', {
-      render(h) {
-        return  h('iframe', {
-          on: { load: this.renderChildren }
-        })
-      },
-      beforeUpdate() {
-        this.iApp.children = Object.freeze(this.$slots.default)
-      },  
-      methods: {
-        renderChildren() {
-          const children = this.$slots.default
-          // oh dear
-          this.$el.contentDocument.head.innerHTML = document.head.innerHTML
-          const body = this.$el.contentDocument.body      
-          const el = document.createElement('DIV')
-          body.appendChild(el)
-          const iApp = new Vue({
-            name: 'iApp',
-            data: { children: Object.freeze(children) }, 
-            render(h) {
-              return h('div', this.children)
-            },
-          })
-          iApp.$mount(el)
-          this.iApp = iApp
-        }
-      }
-    })
 
     function share() {
       state.clipboard = window.location
@@ -300,31 +272,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<!--
-<div class="h-full p-4 transition duration-500" :class="{'bg-blue-500 sm:bg-pink-500': toggle, 'bg-green-500 sm:bg-purple-500': !toggle}">
-<div class="grid gap-4 w-full sm:max-w-md sm:mx-auto">
-<Select id="select" placeholder="" v-model="selected" :options="[{ label: 'Pink', value: 'a' }, { label: 'Purple', value: 'b' }]">
-  <template v-slot:label>
-    <p class="text-gray-700 font-semibold text-sm tracking-wide">
-      Label:
-    </p>
-  </template>
-</Select>
-<Toggle name="theme" v-model="toggle">
-  <template v-slot:label>
-    <p class="text-gray-700 font-semibold text-sm tracking-wide">
-      Theme:
-    </p>
-  </template>
-</Toggle>
-<TextInput v-model="title" type="text">
-  <template v-slot:label>
-    <p class="text-gray-700 font-semibold text-sm tracking-wide">
-      Label:
-    </p>
-  </template>
-</TextInput>
-</div>
-</div>
--->

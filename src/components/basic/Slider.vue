@@ -9,14 +9,13 @@
     :min="$attrs.min" 
     :max="$attrs.max" 
     :step="$attrs.step" 
-    v-model="val" 
-    @input="$emit('input', val)"
+    :value="value"
+    @input="$emit('input', $event.target.value)"
   >
 </label>
 </template>
 
 <script>
-import { ref } from '@vue/composition-api'
 export default {
   name: 'Slider',
   props: {
@@ -25,10 +24,6 @@ export default {
       required: true
     },
   },
-  setup(props) {
-    const val = ref(props.value)
-    return { val }
-  }
 }
 </script>
 

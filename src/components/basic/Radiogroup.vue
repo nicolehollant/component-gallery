@@ -7,16 +7,20 @@
     :key="['radio-option', index].join('-')"
   >
     <label
-      class="relative w-5 h-5 border border-gray-300 rounded-full text-white transition duration-100 ease-in" 
-      :class="{'bg-white': val.value !== selected, 'bg-teal-500': val.value === selected}"
+      class="relative w-5 h-5 border border-gray-300 rounded-full text-white transition duration-100 ease-in focus:outline-none focus:shadow-outline" 
+      tabindex="0"
+      @keydown.space="$event.target.click()"
+      @keydown.enter="$event.target.click()"
+      :class="{'bg-white': val.value !== value, 'bg-teal-500': val.value === value}"
     >
       <input
         type="radio"
         :name="[$attrs.name || $attrs.id, index].join('-')"
         :id="[$attrs.id || $attrs.name, index].join('-')"
         :value="val.value"
-        v-model="selected"
+        :key="['radio-option', index, val.value === value].join('-')"
         class="w-0 h-0 absolute invisible pointer-events-none"
+        @input="$emit('input', $event.target.value)"
       >
     </label>
     <label :for="[$attrs.id || $attrs.name, index].join('-')">
@@ -27,7 +31,6 @@
 </template>
 
 <script>
-import { ref, watch } from '@vue/composition-api'
 export default {
   name: 'Radiogroup',
   props: {
@@ -40,10 +43,5 @@ export default {
       default: () => ([{label: 'label', value: 'value'}])
     },
   },
-  setup(props, {emit}) {
-    const selected = ref(props.value)
-    watch(selected, () => emit('input', selected.value))
-    return { selected }
-  }
 }
 </script>

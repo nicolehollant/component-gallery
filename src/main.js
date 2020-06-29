@@ -5,7 +5,8 @@ import router from './router'
 import store from './store'
 import VueCompositionApi from '@vue/composition-api'
 import VueHighlightJS from 'vue-highlightjs'
- 
+import { useSupercharge } from '@/composables'
+useSupercharge()
 // Tell Vue.js to use vue-highlightjs
 
 Vue.config.productionTip = false

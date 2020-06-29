@@ -8,8 +8,8 @@
     :placeholder="$attrs.placeholder"
     class="block w-full px-2 py-1 font-medium rounded border border-gray-300 focus:outline-none focus:shadow-outline resize-y"
     :class="{'border-orange-700': error !== ''}"
-    v-model="val"
-    @input="$emit('input', val)"
+    @input="$emit('input', $event.target.value)"
+    :value="value"
   />
   <input
     :type="$attrs.type || 'text'"
@@ -19,8 +19,8 @@
     :placeholder="$attrs.placeholder"
     class="block w-full px-2 py-1 font-medium rounded border border-gray-300 focus:outline-none focus:shadow-outline"
     :class="{'border-orange-700': error !== ''}"
-    v-model="val"
-    @input="$emit('input', val)"
+    @input="$emit('input', $event.target.value)"
+    :value="value"
   />
   <p v-if="error" class="mt-1 text-sm font-medium text-orange-700">
     {{ error }}
@@ -29,7 +29,6 @@
 </template>
 
 <script>
-import { ref } from '@vue/composition-api'
 export default {
   name: 'TextInput',
   props: {
@@ -45,10 +44,6 @@ export default {
       type: String,
       default: '',
     },
-  },
-  setup(props) {
-    const val = ref(props.value)
-    return { val }
-  },
+  }
 }
 </script>

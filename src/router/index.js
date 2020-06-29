@@ -9,6 +9,11 @@ const routes = [
     redirect: '/'
   },
   {
+    path: '/svgloader',
+    name: 'SVGLoader',
+    component: () => import('../views/SVGLOADER.vue')
+  },
+  {
     path: '/',
     name: 'Home',
     component: () => import('../views/Home.vue')
