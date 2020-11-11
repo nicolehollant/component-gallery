@@ -37,7 +37,7 @@ export default {
       default: false
     },
     value: {
-      type: String,
+      type: null,
       required: true
     },
     error: {

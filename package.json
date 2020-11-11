@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "deploy": "scpdir component-gallery component-gallery"
   },
   "dependencies": {
     "@vue/composition-api": "^0.4.0",

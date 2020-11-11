@@ -37,7 +37,6 @@ export default {
   },
   setup(_, {emit}) {
     function update(e) {
-      console.log({e})
       emit('input', e.target.value)
     }
     return { update }
